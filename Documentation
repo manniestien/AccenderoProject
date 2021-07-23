@@ -1,0 +1,23 @@
+Accendero Web App
+This is a simple web app that collects user data and also allow you to edit and delete a user.
+
+Initial Setup:
+Decided on what editor to use.
+Decided on what language to use.
+Decided on what where to store data.
+Create a repo for the project.
+
+
+In this project, I used VS code editor.
+Language: TypeScript, JavaScript, HTML, CSS
+Database: MongoDB
+Repo: https://github.com/manniestien/AccenderoProject
+
+
+
+
+Learning Sources: https://angular.io/
+                  https://getbootstrap.com/docs/5.0/forms/overview/
+                  https://stackoverflow.com/questions/8945751/html-form-submit
+
+
