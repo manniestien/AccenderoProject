@@ -1,1 +1,9 @@
-<p>user-item works!</p>
+<a href="#" class="list-group-item clearfix" [routerLink]="['/users', user?.id]"
+routerLinkActive="active">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{user?.name}}</h4>
+  </div>
+  <span class="pull-right">
+    <img [src]="user.imageUrl" alt="{{user.name}}" class="img-responsive">
+  </span>
+</a>

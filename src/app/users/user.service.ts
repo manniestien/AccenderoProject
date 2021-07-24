@@ -8,7 +8,7 @@ import { User } from './user.model';
 })
 export class UserService {
   private users: User[] = [];
-  maxUserId: number | undefined;
+  maxUserId!: number;
   @Output() userSelectedEvent = new EventEmitter<User>();
   @Output() userChangedEvent = new EventEmitter<User[]>();
   @Output() userListChangedEvent = new Subject<User[]>();
@@ -19,32 +19,17 @@ export class UserService {
     this.getUsers();
    }
 
-  sortAndSend() {
-    this.maxUserId = this.getMaxId();
-    this.users.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    })
-    this.userListChangedEvent.next(this.users.slice());
-    this.userListReadyEvent.next();
-   }
-
    getUsers() {
-    this.http.get('http://localhost:3000/Users').subscribe(
+    this.http.get('http://localhost:3000/users').subscribe(
       //success method
       (users: any) => {
         this.users = users.users;
-        this.sortAndSend();
       },
       //error method
       (error: any) => {
         console.log(error);
       });
+      console.log(this.users)
     }
 
    getUser(id: string) {
@@ -72,7 +57,6 @@ export class UserService {
     if (!user) {
       return;
     }
-
     // make sure id of the new User is empty
     user.id = '';
 
@@ -86,7 +70,6 @@ export class UserService {
         (responseData) => {
           // add new User to Users
           this.users.push(responseData.user);
-          this.sortAndSend();
         }
       );
   }
@@ -108,13 +91,12 @@ export class UserService {
 
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    // update database
-    this.http.put('http://localhost:3000/Users/' + originalUser.id,
+    // update in database
+    this.http.put('http://localhost:3000/users/' + originalUser.id,
       newUser, { headers: headers })
       .subscribe(
         (response: any) => {
           this.users[pos] = newUser;
-          this.sortAndSend();
         }
       );
   }
@@ -132,11 +114,10 @@ export class UserService {
     }
 
     // delete from database
-    this.http.delete('http://localhost:3000/Users/' + user.id)
+    this.http.delete('http://localhost:3000/users/' + user.id)
       .subscribe(
         (response: any) => {
           this.users.splice(pos, 1);
-          this.sortAndSend();
         }
       );
   }

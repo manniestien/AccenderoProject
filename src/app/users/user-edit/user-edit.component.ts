@@ -1,3 +1,4 @@
+import { isNull } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -11,13 +12,14 @@ import { UserService } from '../user.service';
 })
 export class UserEditComponent implements OnInit {
 
-  originalUser: User;
-  user: User = null;
-  groupUsers: User[] = [];
+  originalUser!: User;
+  user!: User;
   editMode: boolean = false;
-  invalidGroupUser: boolean = false;
 
-  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) { }
+
+  constructor(private userService: UserService, private router: Router, private route: ActivatedRoute) {
+
+  }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -40,8 +42,8 @@ export class UserEditComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     let value = form.value;
-    let newUser = new User(value.id, value.name, value.email, value.phone, value.imageUrl, value._id);
-    if(this.editMode) {
+    let newUser = new User('', value.name, value.email, value.phone, value.imageUrl, value._id);
+    if(this.editMode === true) {
       this.userService.updateUser(this.originalUser, newUser)
     } else {
       this.userService.addUser(newUser);
@@ -62,31 +64,9 @@ export class UserEditComponent implements OnInit {
       return true;
     }
 
-    for (let i = 0; i < this.groupUsers.length; i++) {
-      if (newUser.id === this.groupUsers[i].id) {
-        return true;
-      }
-    }
-
     return false;
   }
 
-  addToGroup($event: any) {
-    let selectedUser: User = $event.dragData;
-    this.invalidGroupUser = this.isInvalidUser(selectedUser);
-    if (this.invalidGroupUser) {
-      return;
-    }
-    this.groupUsers.push(selectedUser);
-  }
 
-  onRemoveItem(idx: number) {
-    if (idx < 0 || idx > this.groupUsers.length) {
-      return;
-    }
-
-    this.groupUsers.splice(idx, 1);
-    this.invalidGroupUser = false;
-  }
 
 }

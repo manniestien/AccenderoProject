@@ -10,14 +10,14 @@ import { User } from '../user.model'
   styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit {
- @Input() user: User;
+ @Input() user!: User;
   constructor(private userService: UserService,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.user = this.userService.getUser(params['id']);
+   //   this.user = this.userService.getUser(params['id']);
     });
   }
 
