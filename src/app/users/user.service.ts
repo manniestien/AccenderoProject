@@ -7,7 +7,8 @@ import { User } from './user.model';
   providedIn: 'root'
 })
 export class UserService {
-  private users: User[] = [];
+  users: User[] = [];
+  userk: any;
   maxUserId!: number;
   @Output() userSelectedEvent = new EventEmitter<User>();
   @Output() userChangedEvent = new EventEmitter<User[]>();
@@ -20,16 +21,16 @@ export class UserService {
    }
 
    getUsers() {
-    this.http.get('http://localhost:3000/users').subscribe(
-      //success method
-      (users: any) => {
-        this.users = users.users;
+    this.http.get('http://localhost:3000/users').subscribe(allData => {
+
+        this.userk = allData;
+      //  console.log(this.userk)
       },
       //error method
       (error: any) => {
         console.log(error);
       });
-      console.log(this.users)
+
     }
 
    getUser(id: string) {
@@ -69,6 +70,7 @@ export class UserService {
       .subscribe(
         (responseData) => {
           // add new User to Users
+          console.log(responseData);
           this.users.push(responseData.user);
         }
       );

@@ -7,12 +7,12 @@ var router = express.Router();
 
 router.get('/', (req, res, next) => {
   User.find()
-    .populate('group')
     .then(users => {
       res.status(200).json({
           message: 'Users fetched successfully!',
-          Users: users
+          users: users
         });
+        console.log(users);
     })
     .catch(error => {
       res.status(500).json({
@@ -20,6 +20,7 @@ router.get('/', (req, res, next) => {
         error: error
       });
     });
+
 });
 
 

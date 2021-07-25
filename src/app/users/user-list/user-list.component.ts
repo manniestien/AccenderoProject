@@ -16,12 +16,17 @@ export class UserListComponent implements OnInit {
 
    }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    this.populateUsers();
+  }
+
+  populateUsers() {
     this.userService.getUsers();
     this.userService.userChangedEvent
       .subscribe(
-        (users: User[]) => {
-          this.users = users;
+        (        userss: User[]) => {
+          this.users = userss;
+          console.log(userss)
         }
       )
 
